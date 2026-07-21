@@ -13,7 +13,10 @@ import MyAccountPage from "@/Pages/Website/MyAccountPage/MyAccountPage"
 import OrderInformationPage from "@/Pages/Website/OrderInformationPage/OrderInformationPage.tsx"
 import PrivacyPolicyPage from "@/Pages/Website/PrivacyPolicyPage/PrivacyPolicyPage.tsx"
 import TermsConditionsPage from "@/Pages/Website/TermsConditionsPage/TermsConditionsPage.tsx"
+import ProductCategoryPage from "@/Pages/Website/ProductCategoryPage/ProductCategoryPage"
+import ViewCart from "@/Pages/Website/ViewCartPage/ViewCart"
 import LoginSignup from "@/Pages/Website/LoginSignup/LoginSignup.tsx"
+import ScheduleStreamingPage from "@/Pages/Website/ScheduleStreamingPage/ScheduleStreamingPage"
 
 // Authentication Pages
 import { LoginPage } from "@/Pages/Authentication/LoginPage"
@@ -34,9 +37,18 @@ export const router = createBrowserRouter([
       { path: "/contact", element: <ContactPage /> },
       { path: "/careers", element: <CareerPage /> },
       { path: "/my-account", element: <MyAccountPage /> },
+      { path: "/account", element: <MyAccountPage /> },
       { path: "/order-info", element: <OrderInformationPage /> },
+      { path: "/order-information", element: <OrderInformationPage /> },
+      { path: "/schedule-digital-streaming", element: <ScheduleStreamingPage /> },
+      { path: "/schedule-streaming", element: <ScheduleStreamingPage /> },
       { path: "/privacy-policy", element: <PrivacyPolicyPage /> },
+      { path: "/privacy", element: <PrivacyPolicyPage /> },
       { path: "/terms", element: <TermsConditionsPage /> },
+      { path: "/product-category/:category", element: <ProductCategoryPage /> },
+      { path: "/product-category/:category/:subcategory", element: <ProductCategoryPage /> },
+      { path: "/viewcart", element: <ViewCart /> },
+      { path: "/cart", element: <ViewCart /> },
     ],
   },
   {

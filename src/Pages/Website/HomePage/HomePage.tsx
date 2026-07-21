@@ -12,8 +12,24 @@ import {
   Cpu,
 } from 'lucide-react'
 
+interface TopSlide {
+  title: string
+  category: string
+  image: string
+  artist: string
+  year: string
+  desc: string
+}
+
+interface CarouselCard {
+  src: string
+  bg: string
+  alt: string
+  label: string
+}
+
 export default function HomePage() {
-  const [sliderIndex, setSliderIndex] = useState(0)
+  const [sliderIndex, setSliderIndex] = useState<number>(0)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const scrollDeals = (direction: 'left' | 'right') => {
@@ -42,7 +58,7 @@ export default function HomePage() {
   }
 
   // Top slider items matching "Jeri - Alive" and others
-  const topSlides = [
+  const topSlides: TopSlide[] = [
     {
       title: "Jérï - Alive",
       category: "Audio / Pop Album",
@@ -62,13 +78,13 @@ export default function HomePage() {
   ]
 
   // Carousel card data — 50 cards with correct image URLs and extensions
-  const carouselCards = (() => {
-    const pngSlides = new Set([8, 9, 10, 11, 12])
+  const carouselCards: CarouselCard[] = (() => {
+    const pngSlides = new Set<number>([8, 9, 10, 11, 12])
     const specialBgs: Record<number, string> = { 1: 'bg-[#e9e6ff]', 2: 'bg-white', 3: 'bg-[#990085]' }
     // Card-to-slide mapping: cards 1-3 → slides 1-3, cards 4-5 → slide 5, cards 6-50 → slides 6-50
     const slideNumbers = [1, 2, 3, 5, 5, ...Array.from({ length: 45 }, (_, i) => i + 6)]
 
-    const getLabel = (num: number) => {
+    const getLabel = (num: number): string => {
       if ([1, 2, 3, 4, 5, 10, 15, 16, 17, 18, 19, 20, 29].includes(num)) return "Digital Audio";
       if ([6, 7, 11, 14, 30, 32, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50].includes(num)) return "Digital Art";
       if ([8, 9, 21, 23, 24, 25, 26, 28].includes(num)) return "Digital Movie";
@@ -91,7 +107,7 @@ export default function HomePage() {
   })()
 
   return (
-    <div className="-mt-28 -mb-12 pt-28 pb-12 bg-[#121212] text-white font-sans antialiased min-h-screen overflow-hidden">
+    <div className="-mt-16 sm:-mt-20 md:-mt-28 -mb-12 pt-16 sm:pt-20 md:pt-28 pb-12 bg-[#121212] text-white font-sans antialiased min-h-screen overflow-hidden">
       {/* 1. Header Album Slider (Alive Album) */}
       {false && (
         <section className="max-w-4xl mx-auto px-4 pt-6 pb-4">
@@ -132,13 +148,13 @@ export default function HomePage() {
 
             {/* Navigation Arrows */}
             <button
-              onClick={() => setSliderIndex((prev) => (prev === 0 ? topSlides.length - 1 : prev - 1))}
+              onClick={() => setSliderIndex((prev: number) => (prev === 0 ? topSlides.length - 1 : prev - 1))}
               className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/50 hover:bg-accent text-white hover:text-primary transition-all cursor-pointer"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
-              onClick={() => setSliderIndex((prev) => (prev + 1) % topSlides.length)}
+              onClick={() => setSliderIndex((prev: number) => (prev + 1) % topSlides.length)}
               className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/50 hover:bg-accent text-white hover:text-primary transition-all cursor-pointer"
             >
               <ChevronRight className="w-5 h-5" />
@@ -150,8 +166,9 @@ export default function HomePage() {
       {/* 2. Deals/Categories Grid (Watch Out for This) */}
       <section className="w-full px-6 md:px-12 lg:px-20 py-8 relative">
 
+
         {/* Navigation Arrows outside the grid */}
-        <button onClick={() => scrollDeals('left')} className="hidden md:flex absolute left-6 md:left-08 top-[55%] -translate-y-1/2 p-2 bg-transparent hover:bg-white/10 text-gray-400 hover:text-white rounded-full transition-colors z-10">
+        <button onClick={() => scrollDeals('left')} className="hidden md:flex absolute left-6 md:left-8 top-[55%] -translate-y-1/2 p-2 bg-transparent hover:bg-white/10 text-gray-400 hover:text-white rounded-full transition-colors z-10">
           <ChevronLeft className="w-8 h-8" />
         </button>
         <button onClick={() => scrollDeals('right')} className="hidden md:flex absolute right-6 md:right-8 top-[55%] -translate-y-1/2 p-2 bg-transparent hover:bg-white/10 text-gray-400 hover:text-white rounded-full transition-colors z-10">
@@ -187,7 +204,7 @@ export default function HomePage() {
 
       {/* 3. The Market Place Headline */}
       <div className="bg-[#121212] text-white">
-        <section className="max-w-7xl mx-auto px-4 pt-16 pb-12 text-center flex flex-col items-center">
+        <section className="max-w-7xl mx-auto px-4 pt-6 md:pt-8 pb-12 text-center flex flex-col items-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white font-sans mb-10">
             The Market Place{' '}
             <br className="sm:hidden" />
@@ -234,7 +251,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="pt-3 border-t border-[#2a2a2a] flex justify-end mt-2">
-                <Link to="/shop" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
+                <Link to="/audio-production" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
                   <span>Learn More Watch Video</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
@@ -261,12 +278,13 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="pt-3 border-t border-[#2a2a2a] flex justify-end mt-2">
-                <Link to="/shop" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
+                <Link to="/digital-art" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
                   <span>Learn More Watch Video</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
             </div>
+
 
             {/* Category: Games */}
             <div className="bg-[#1d1d1d] border border-[#2a2a2a] rounded-xl p-5 hover:border-success transition-all space-y-4 group">
@@ -288,7 +306,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="pt-3 border-t border-[#2a2a2a] flex justify-end mt-2">
-                <Link to="/shop" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
+                <Link to="/games-production" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
                   <span>Learn More Watch Video</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
@@ -315,7 +333,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="pt-3 border-t border-[#2a2a2a] flex justify-end mt-2">
-                <Link to="/shop" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
+                <Link to="/video-production" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
                   <span>Learn More Watch Video</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
@@ -342,7 +360,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="pt-3 border-t border-[#2a2a2a] flex justify-end mt-2">
-                <Link to="/shop" className="text-xs font-bold text-[#22c55e] hover:text-white transition-colors flex items-center gap-1">
+                <Link to="/software" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
                   <span>Learn More Watch Video</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
@@ -369,12 +387,14 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="pt-3 border-t border-[#2a2a2a] flex justify-end mt-2">
-                <Link to="/signup" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
+                <Link to="/register-advertise" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
                   <span>Learn More Watch Video</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
             </div>
+
+
 
             {/* Category: Register & Hire */}
             <div className="bg-[#1d1d1d] border border-[#2a2a2a] rounded-xl p-5 hover:border-success transition-all space-y-4 group">
@@ -396,7 +416,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="pt-3 border-t border-[#2a2a2a] flex justify-end mt-2">
-                <Link to="/contact" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
+                <Link to="/register-hire" className="text-xs font-bold text-success hover:text-white transition-colors flex items-center gap-1">
                   <span>Learn More Watch Video</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
@@ -488,40 +508,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 6. Directory Showcases: Freelancers & Musicians */}
-        <section className="max-w-7xl mx-auto px-4 py-8 space-y-12">
-
-          {/* Trending Musicians Spotlight */}
-          <div className="space-y-6">
-            <div className="flex items-center justify-between border-b border-[#2a2a2a] pb-4">
-              <h3 className="font-bold text-2xl text-white">Trending Musicians & Audio</h3>
-              <span className="text-xs uppercase font-bold text-success">Spotlight</span>
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-8 bg-[#1d1d1d] border border-[#2a2a2a] rounded-xl p-6 lg:p-8 items-center">
-              <img
-                src="https://www.digabyss.com/wp-content/uploads/2014/01/audio02-300x196.jpg"
-                alt="Musicians playing"
-                className="w-full md:w-64 aspect-video md:aspect-square rounded-lg object-cover bg-[#2a2a2a]"
-              />
-              <div className="space-y-4 flex-1">
-                <h4 className="font-bold text-2xl text-white">Live Studio Sessions & Acoustic Rhythm Loops</h4>
-                <p className="text-sm text-gray-400 leading-relaxed max-w-2xl">
-                  Connect directly with independent recording artists. Access high-quality acoustic loops, custom mixing setups, and raw vocals without license fees.
-                </p>
-                <div className="flex gap-4 pt-2">
-                  <button className="px-6 py-2.5 bg-success hover:bg-success/80 text-black font-bold rounded-lg transition-colors">
-                    Listen Track
-                  </button>
-                  <button className="px-6 py-2.5 bg-transparent border border-success hover:bg-success/10 text-success font-bold rounded-lg transition-colors">
-                    Negotiate Beat
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </section>
       </div>
 
     </div>

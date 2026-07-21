@@ -3,22 +3,22 @@ import { Package, Truck, CheckCircle, Clock, Search, ArrowRight } from 'lucide-r
 export default function OrderInformationPage() {
   const orderSteps = [
     {
-      icon: <Package className="w-6 h-6" />,
+      icon: <Package className="w-6 h-6 stroke-[2.5]" />,
       title: 'Browse & Purchase',
       description: 'Find the digital content you love from independent creators. Use Buy or Negotiate to set your price.'
     },
     {
-      icon: <CheckCircle className="w-6 h-6" />,
+      icon: <CheckCircle className="w-6 h-6 stroke-[2.5]" />,
       title: 'Instant Confirmation',
       description: 'Receive an immediate order confirmation with your receipt, download links, and license details.'
     },
     {
-      icon: <Truck className="w-6 h-6" />,
+      icon: <Truck className="w-6 h-6 stroke-[2.5]" />,
       title: 'Digital Delivery',
       description: 'All digital products are delivered instantly to your account. Access your files anytime from your dashboard.'
     },
     {
-      icon: <Clock className="w-6 h-6" />,
+      icon: <Clock className="w-6 h-6 stroke-[2.5]" />,
       title: 'Lifetime Access',
       description: 'Once purchased, your digital content is available forever in your account library with free updates.'
     },
@@ -52,11 +52,11 @@ export default function OrderInformationPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#121212] text-white">
+    <div className="min-h-screen bg-[#121212] text-white pt-4 pb-16">
 
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 pt-12 pb-12 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+      <section className="max-w-7xl mx-auto px-4 pt-6 pb-8 text-center">
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-3">
           Order Information
         </h1>
         <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
@@ -65,19 +65,19 @@ export default function OrderInformationPage() {
       </section>
 
       {/* How It Works */}
-      <section className="max-w-7xl mx-auto px-4 pb-16">
+      <section className="max-w-7xl mx-auto px-4 pb-14">
         <h2 className="text-2xl font-bold text-white mb-8 text-center">How It Works</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {orderSteps.map((step, index) => (
             <div
               key={index}
-              className="bg-[#1d1d1d] border border-[#2a2a2a] rounded-xl p-6 text-center space-y-4 hover:border-success transition-colors group"
+              className="bg-[#1c1c1c] border border-[#2e2e2e] rounded-2xl p-7 text-center space-y-4 hover:border-success/60 transition-all duration-300 group"
             >
-              <div className="w-14 h-14 mx-auto rounded-xl bg-gradient-to-br from-success to-success/70 flex items-center justify-center text-black">
+              <div className="w-14 h-14 mx-auto rounded-2xl bg-success text-black flex items-center justify-center shadow-lg shadow-success/20 group-hover:scale-105 transition-transform">
                 {step.icon}
               </div>
-              <div className="text-xs font-bold text-success uppercase tracking-wider">
-                Step {index + 1}
+              <div className="text-xs font-extrabold text-success uppercase tracking-widest pt-1">
+                STEP {index + 1}
               </div>
               <h3 className="font-bold text-lg text-white">{step.title}</h3>
               <p className="text-xs text-gray-400 leading-relaxed">{step.description}</p>
@@ -88,10 +88,10 @@ export default function OrderInformationPage() {
 
       {/* Order Lookup */}
       <section className="max-w-7xl mx-auto px-4 pb-16">
-        <div className="bg-[#1d1d1d] border border-[#2a2a2a] rounded-xl p-8 md:p-12">
+        <div className="bg-[#1c1c1c] border border-[#2e2e2e] rounded-2xl p-8 md:p-12 shadow-xl">
           <div className="max-w-xl mx-auto text-center space-y-6">
             <h2 className="text-2xl font-bold text-white">Track Your Order</h2>
-            <p className="text-sm text-gray-400">
+            <p className="text-xs md:text-sm text-gray-400">
               Enter your order ID or email address to view your order status and download links.
             </p>
             <div className="flex gap-3">
@@ -99,11 +99,11 @@ export default function OrderInformationPage() {
                 <input
                   type="text"
                   placeholder="Order ID or Email Address"
-                  className="w-full bg-[#121212] border border-[#2a2a2a] rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-success transition-colors"
+                  className="w-full bg-[#121212] border border-[#2e2e2e] rounded-xl px-4 py-3 text-xs md:text-sm text-white placeholder-gray-500 focus:outline-none focus:border-success focus:ring-1 focus:ring-success transition-all"
                 />
-                <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
               </div>
-              <button className="px-6 py-3 bg-success hover:bg-success/80 text-black font-bold text-sm rounded-lg transition-colors shrink-0">
+              <button className="px-6 py-3 bg-success hover:bg-success/90 text-black font-extrabold text-xs md:text-sm rounded-xl transition-all shadow-md shadow-success/20 cursor-pointer shrink-0">
                 Look Up
               </button>
             </div>
@@ -118,7 +118,7 @@ export default function OrderInformationPage() {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="bg-[#1d1d1d] border border-[#2a2a2a] rounded-xl p-6 hover:border-success transition-colors"
+              className="bg-[#1c1c1c] border border-[#2e2e2e] rounded-xl p-6 hover:border-success/50 transition-colors"
             >
               <h3 className="font-bold text-white mb-2">{faq.question}</h3>
               <p className="text-sm text-gray-400 leading-relaxed">{faq.answer}</p>
@@ -128,15 +128,16 @@ export default function OrderInformationPage() {
       </section>
 
       {/* Contact Support CTA */}
-      <section className="max-w-7xl mx-auto px-4 pb-16">
-        <div className="bg-[#1d1d1d] border border-[#2a2a2a] rounded-xl p-8 text-center">
+      <section className="max-w-7xl mx-auto px-4 pb-12">
+        <div className="bg-[#1c1c1c] border border-[#2e2e2e] rounded-2xl p-8 md:p-10 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-success/5 to-transparent pointer-events-none" />
           <h2 className="text-xl md:text-2xl font-bold text-white mb-3">Need More Help?</h2>
           <p className="text-sm text-gray-400 max-w-lg mx-auto mb-6">
             Our support team is available to assist you with any order-related questions or issues.
           </p>
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-success hover:bg-success/80 text-black font-bold rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-success hover:bg-success/90 text-black font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg hover:scale-105"
           >
             Contact Support
             <ArrowRight className="w-4 h-4" />

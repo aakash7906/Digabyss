@@ -1,99 +1,154 @@
+import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  FaFacebook,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedin
-} from 'react-icons/fa6'
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa6'
 import Logo from './Logo'
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-primary-foreground pt-16 pb-8 relative z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-black text-primary-foreground pt-16 pb-12 relative z-10 w-full border-t border-[#2a2a2a]/40">
+      <div className="w-full max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12">
 
         {/* About Us & Info grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
 
           {/* About us branding section */}
-          <div className="lg:col-span-2 space-y-4">
-            <Link to="/" className="cursor-pointer">
+          <div className="lg:col-span-1 space-y-5">
+            <Link to="/" className="cursor-pointer inline-block hover:opacity-90 transition-opacity">
               <Logo />
             </Link>
-            <p className="text-sm text-primary-foreground leading-relaxed max-w-sm">
+            <p className="text-sm leading-relaxed text-primary-foreground/90 max-w-sm">
               Digabyss is the market place for creative minds. We serve as a direct portal connecting global independent developers, writers, designers, and musicians directly with clients under the Buy, Sell, Trade, and Negotiate framework.
             </p>
 
-            {/* Social handles */}
-            <div className="flex gap-4 pt-2">
-              <a href="#" className="p-2 bg-secondary hover:bg-accent hover:text-primary transition-all rounded-full text-white">
-                <FaFacebook className="w-4 h-4" />
+            {/* Circular Blue Social Handles */}
+            <div className="flex items-center gap-3 pt-3">
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-[#184880] hover:bg-[#184880]/80 flex items-center justify-center text-white transition-all shadow-md cursor-pointer hover:scale-110"
+                aria-label="Facebook"
+              >
+                <FaFacebook className="w-4 h-4 text-white" />
               </a>
-              <a href="#" className="p-2 bg-secondary hover:bg-accent hover:text-primary transition-all rounded-full text-white">
-                <FaTwitter className="w-4 h-4" />
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-[#184880] hover:bg-[#184880]/80 flex items-center justify-center text-white transition-all shadow-md cursor-pointer hover:scale-110"
+                aria-label="Twitter"
+              >
+                <FaTwitter className="w-4 h-4 text-white" />
               </a>
-              <a href="#" className="p-2 bg-secondary hover:bg-accent hover:text-primary transition-all rounded-full text-white">
-                <FaInstagram className="w-4 h-4" />
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-[#184880] hover:bg-[#184880]/80 flex items-center justify-center text-white transition-all shadow-md cursor-pointer hover:scale-110"
+                aria-label="Instagram"
+              >
+                <FaInstagram className="w-4 h-4 text-white" />
               </a>
-              <a href="#" className="p-2 bg-secondary hover:bg-accent hover:text-primary transition-all rounded-full text-white">
-                <FaLinkedin className="w-4 h-4" />
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-[#184880] hover:bg-[#184880]/80 flex items-center justify-center text-white transition-all shadow-md cursor-pointer hover:scale-110"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedin className="w-4 h-4 text-white" />
               </a>
             </div>
           </div>
 
           {/* Digital files category list */}
           <div>
-            <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Digital Stores</h4>
-            <ul className="space-y-2.5 text-sm">
-              <li><Link to="/shop" className="hover:text-white transition-colors">Audio & Beat Pack</Link></li>
-              <li><Link to="/shop" className="hover:text-white transition-colors">Artworks & Photos</Link></li>
-              <li><Link to="/shop" className="hover:text-white transition-colors">Novels & Literature</Link></li>
-              <li><Link to="/shop" className="hover:text-white transition-colors">Indie Games</Link></li>
-              <li><Link to="/shop" className="hover:text-white transition-colors">Software & Tools</Link></li>
+            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">
+              Digital Stores
+            </h4>
+            <ul className="space-y-3.5 text-sm">
+              <li>
+                <Link to="/product-category/audio" className="text-primary-foreground hover:text-success transition-colors font-medium">
+                  Audio & Beat Pack
+                </Link>
+              </li>
+              <li>
+                <Link to="/product-category/digital-art" className="text-primary-foreground hover:text-success transition-colors font-medium">
+                  Artworks & Photos
+                </Link>
+              </li>
+              <li>
+                <Link to="/product-category/literature" className="text-primary-foreground hover:text-success transition-colors font-medium">
+                  Novels & Literature
+                </Link>
+              </li>
+              <li>
+                <Link to="/product-category/games" className="text-primary-foreground hover:text-success transition-colors font-medium">
+                  Indie Games
+                </Link>
+              </li>
+              <li>
+                <Link to="/product-category/software" className="text-primary-foreground hover:text-success transition-colors font-medium">
+                  Software & Tools
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Directory networking links */}
+          {/* Quick links section */}
           <div>
-            <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Networking</h4>
-            <ul className="space-y-2.5 text-sm">
-              <li><Link to="/contact" className="hover:text-white transition-colors">Freelance Board</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition-colors">Gigs Listings</Link></li>
-              <li><Link to="/about" className="hover:text-white transition-colors">Verified Program</Link></li>
-              <li><Link to="/terms" className="hover:text-white transition-colors">Negotiation Rules</Link></li>
+            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">
+              Quick Links
+            </h4>
+            <ul className="space-y-3.5 text-sm">
+              <li>
+                <Link to="/about" className="text-primary-foreground hover:text-success transition-colors font-medium">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/careers" className="text-primary-foreground hover:text-success transition-colors font-medium">
+                  Careers
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-primary-foreground hover:text-success transition-colors font-medium">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy-policy" className="text-primary-foreground hover:text-success transition-colors font-medium">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms" className="text-primary-foreground hover:text-success transition-colors font-medium">
+                  Terms & Return Policy
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Quick contact and news signup */}
+          {/* Stay Connected section */}
           <div>
-            <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Stay Connected</h4>
-            <p className="text-xs text-primary-foreground mb-4 leading-normal">
-              Receive updates detailing new creative assets and freelancing jobs.
+            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">
+              Stay Connected
+            </h4>
+            <p className="text-xs text-primary-foreground/80 mb-5 leading-relaxed max-w-xs">
+              Receive updates about new creative assets and freelancing opportunities.
             </p>
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-2">
+            <form onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()} className="space-y-3.5">
               <input
                 type="email"
                 placeholder="Email Address"
-                className="w-full bg-secondary/50 border border-foreground rounded-lg px-3 py-2 text-xs text-white placeholder-primary-foreground focus:outline-none focus:ring-1 focus:ring-accent transition-all"
+                className="w-full bg-[#0d1e36] border border-white/20 rounded-lg px-4 py-3 text-xs font-medium text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-success/50 focus:border-success transition-all"
               />
-              <button type="submit" className="w-full bg-accent hover:bg-accent/90 text-black font-bold text-xs py-2.5 rounded-lg transition-all shadow-md">
+              <button
+                type="submit"
+                className="w-full bg-[#e2bb44] hover:bg-[#e2bb44]/90 text-black font-bold text-sm py-2.5 rounded-lg transition-all shadow-md cursor-pointer"
+              >
                 Subscribe
               </button>
             </form>
+
+            {/* Copyright Text relocated below subscribe button */}
+            <p className="text-xs text-primary-foreground/80 font-medium pt-5 leading-relaxed">
+              &copy; {new Date().getFullYear()} Digabyss. All rights reserved. Created for artists worldwide.
+            </p>
           </div>
 
-        </div>
-
-        {/* copyright metadata */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-primary-foreground">
-          <p>&copy; {new Date().getFullYear()} Digabyss. All rights reserved. Created for artists worldwide.</p>
-          <div className="flex gap-4">
-            <Link to="/about" className="hover:underline">About Us</Link>
-            <Link to="/privacy-policy" className="hover:underline">Privacy Policy</Link>
-            <Link to="/terms" className="hover:underline">Terms & Return Policy</Link>
-            <Link to="/careers" className="hover:underline">Careers</Link>
-            <Link to="/contact" className="hover:underline">Contact Us</Link>
-          </div>
         </div>
 
       </div>

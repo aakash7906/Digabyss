@@ -11,16 +11,16 @@ export function AuthLayout() {
             to="/"
             className="flex items-center gap-2 font-semibold text-sm hover:opacity-90 transition-opacity"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-xs">
-              <Compass className="h-4 w-4" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-black text-white border border-[#2a2a2a] shadow-xs">
+              <Compass className="h-4 w-4 text-success" />
             </div>
             <span className="font-bold text-base tracking-tight">DigAbyss</span>
           </Link>
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-black text-white hover:text-success font-bold text-xs rounded-xl border border-[#2a2a2a] hover:border-success/50 transition-all shadow-md cursor-pointer"
           >
-            <ArrowLeft className="h-3.5 w-3.5" />
+            <ArrowLeft className="h-3.5 w-3.5 text-white" />
             Back to website
           </Link>
         </div>
@@ -57,3 +57,5 @@ export function AuthLayout() {
     </div>
   )
 }
+
+export default AuthLayout
