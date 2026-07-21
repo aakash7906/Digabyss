@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useCart } from '../../context/CartContext'
+import { useCart } from '@/Pages/context/CartContext'
 import {
   ShoppingBag,
   Trash2,

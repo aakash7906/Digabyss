@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from '@/Pages/Website/WebsiteComponent/Navbar'
 import Footer from '@/Pages/Website/WebsiteComponent/Footer'
+import { CartProvider } from '@/Pages/context/CartContext'
 
 export function WebsiteLayout() {
   const location = useLocation()
@@ -18,18 +19,20 @@ export function WebsiteLayout() {
     location.pathname.startsWith('/shop/product')
 
   return (
-    <div className={`flex flex-col min-h-screen w-full overflow-x-hidden transition-colors duration-300 ${isDarkPage ? 'bg-[#121212] text-white' : 'bg-background text-foreground'}`}>
-      {/* Global Capsule Floating Navbar */}
-      <Navbar />
+    <CartProvider>
+      <div className={`flex flex-col min-h-screen w-full overflow-x-hidden transition-colors duration-300 ${isDarkPage ? 'bg-[#121212] text-white' : 'bg-background text-foreground'}`}>
+        {/* Global Capsule Floating Navbar */}
+        <Navbar />
 
-      {/* Main Route Content (padded to sit nicely below fixed navbar) */}
-      <main className="flex-grow pt-16 sm:pt-20 md:pt-28 pb-12">
-        <Outlet />
-      </main>
+        {/* Main Route Content (padded to sit nicely below fixed navbar) */}
+        <main className="flex-grow pt-16 sm:pt-20 md:pt-28 pb-12">
+          <Outlet />
+        </main>
 
-      {/* Global Footer */}
-      <Footer />
-    </div>
+        {/* Global Footer */}
+        <Footer />
+      </div>
+    </CartProvider>
   )
 }
 

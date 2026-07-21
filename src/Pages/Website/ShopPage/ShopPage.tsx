@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ShoppingBag, Star, ArrowRight, Eye, X } from 'lucide-react'
+import { ShoppingBag, Star, ArrowRight, Eye, X, Check } from 'lucide-react'
+import { useCart, type Product as CartProduct } from '@/Pages/context/CartContext'
 
 interface Product {
   id: number
@@ -17,10 +18,12 @@ interface Product {
 }
 
 export default function ShopPage() {
+  const { addToCart } = useCart()
   const [activeCategory, setActiveCategory] = useState('All')
   const [sortBy, setSortBy] = useState('default')
   const [currentPage, setCurrentPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
+  const [addedItemId, setAddedItemId] = useState<number | string | null>(null)
 
   // Modals state
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null)
@@ -54,12 +57,12 @@ export default function ShopPage() {
   })
 
   const ITEMS_PER_PAGE = 24
-  
+
   // Filter, Search & Sort Logic
   const filteredProducts = initialProducts.filter(p => {
     const matchesCategory = activeCategory === 'All' || p.category === activeCategory
-    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          (p.subtitle && p.subtitle.toLowerCase().includes(searchQuery.toLowerCase()))
+    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (p.subtitle && p.subtitle.toLowerCase().includes(searchQuery.toLowerCase()))
     return matchesCategory && matchesSearch
   }).sort((a, b) => {
     if (sortBy === 'price-low') return a.price - b.price
@@ -70,7 +73,7 @@ export default function ShopPage() {
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE)
   const pagedProducts = filteredProducts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
-  
+
   const generatePagination = () => {
     let pages: (number | string)[] = []
     if (totalPages <= 5) {
@@ -87,9 +90,29 @@ export default function ShopPage() {
     return pages
   }
 
+  const handleAddToCart = (product: Product) => {
+    const cartProd: CartProduct = {
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      image: product.image,
+      rating: product.rating,
+      category: product.category,
+      subtitle: product.subtitle,
+      discount: product.discount,
+      isHD: product.isHD
+    }
+    addToCart(cartProd)
+    setAddedItemId(product.id)
+    setTimeout(() => {
+      setAddedItemId(null)
+    }, 1500)
+  }
+
   return (
     <div className="min-h-screen bg-[#121212] text-white font-sans antialiased pb-12 pt-4">
-      
+
       {/* 1. Header Hero Area */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 pt-4 pb-4 text-center flex flex-col items-center">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-2 text-white">
@@ -132,11 +155,10 @@ export default function ShopPage() {
                 setActiveCategory(cat.name)
                 setCurrentPage(1)
               }}
-              className={`px-4 py-2 rounded-xl font-bold text-[10px] shrink-0 tracking-wider transition-all cursor-pointer border uppercase ${
-                activeCategory === cat.name
+              className={`px-4 py-2 rounded-xl font-bold text-[10px] shrink-0 tracking-wider transition-all cursor-pointer border uppercase ${activeCategory === cat.name
                   ? 'bg-success text-black border-success'
                   : 'bg-transparent border-white/20 text-gray-300 hover:border-success hover:text-white'
-              }`}
+                }`}
             >
               {cat.name.toUpperCase()}
               <span className={`ml-2 text-[10px] font-semibold ${activeCategory === cat.name ? 'text-black/60' : 'text-gray-500'}`}>
@@ -152,7 +174,7 @@ export default function ShopPage() {
         <div className="text-[11px] font-semibold text-gray-400">
           Showing {pagedProducts.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0}-{Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length)} of {filteredProducts.length} results
         </div>
-        
+
         <div className="flex items-center gap-3">
           <label className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Sort By:</label>
           <select
@@ -176,7 +198,7 @@ export default function ShopPage() {
           {pagedProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-[#1d1d1d]/40 border border-white/5 rounded-2xl overflow-hidden hover:border-success transition-all group flex flex-col justify-between"
+              className="bg-[#181818] border border-white/10 rounded-2xl overflow-hidden hover:border-success/60 transition-all duration-300 group flex flex-col justify-between shadow-xl"
             >
               {/* Product Visual Frame */}
               <div className="relative aspect-square overflow-hidden bg-black flex items-center justify-center">
@@ -185,30 +207,49 @@ export default function ShopPage() {
                   alt={product.title}
                   className="w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-500"
                 />
-                
+
                 {/* Overlay Tags & Badges */}
-                {product.isHD && (
-                  <span className="absolute top-3 left-3 text-[9px] font-black uppercase tracking-wider bg-success text-black px-2 py-0.5 rounded-md shadow-lg">
-                    HD
-                  </span>
-                )}
                 {product.discount && (
-                  <span className="absolute top-3 left-3 text-[9px] font-black uppercase tracking-wider bg-blue-600 text-white px-2 py-0.5 rounded-md shadow-lg">
+                  <span className="absolute top-3 left-3 text-[11px] font-extrabold uppercase tracking-wider bg-[#1d63ed] text-white px-2.5 py-1 rounded-md shadow-lg">
                     -{product.discount}
                   </span>
                 )}
+                {!product.discount && product.isHD && (
+                  <span className="absolute top-3 left-3 text-[11px] font-extrabold uppercase tracking-wider bg-success text-black px-2.5 py-1 rounded-md shadow-lg">
+                    HD
+                  </span>
+                )}
 
-                <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                {/* Centered Hover Action Circular Buttons (Matching Reference Image) */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                  {/* Teal Add to Cart Button */}
                   <button
-                    className="p-3 bg-success text-black rounded-full hover:scale-110 transition-transform shadow-lg cursor-pointer flex items-center gap-1 text-xs font-bold"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleAddToCart(product)
+                    }}
+                    className="w-12 h-12 rounded-full bg-success text-black flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-transform cursor-pointer"
+                    aria-label="Add to cart"
+                    title="Add to Cart"
                   >
-                    <ShoppingBag className="w-4 h-4" />
+                    {addedItemId === product.id ? (
+                      <Check className="w-5 h-5 text-black animate-in zoom-in" />
+                    ) : (
+                      <ShoppingBag className="w-5 h-5 text-black" />
+                    )}
                   </button>
+
+                  {/* Dark Quick View Button */}
                   <button
-                    onClick={() => setQuickViewProduct(product)}
-                    className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full hover:scale-110 transition-transform shadow-lg cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setQuickViewProduct(product)
+                    }}
+                    className="w-12 h-12 rounded-full bg-[#2a2a2a]/90 border border-white/20 text-white flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-transform cursor-pointer"
+                    aria-label="Quick view"
+                    title="Quick View"
                   >
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-5 h-5 text-white" />
                   </button>
                 </div>
               </div>
@@ -217,25 +258,25 @@ export default function ShopPage() {
               <div className="p-5 flex-1 flex flex-col justify-between gap-4">
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest">{product.category}</span>
+                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{product.category}</span>
                     <div className="flex items-center gap-1">
-                      <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                      <span className="text-[10px] font-bold text-gray-400">{product.rating}</span>
+                      <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
+                      <span className="text-xs font-bold text-gray-200">{product.rating}</span>
                     </div>
                   </div>
-                  <h3 className="font-bold text-sm text-gray-100 group-hover:text-success transition-colors leading-snug line-clamp-2">
+                  <h3 className="font-bold text-sm text-success group-hover:text-success transition-colors leading-snug line-clamp-2">
                     {product.title}
                   </h3>
                   {product.subtitle && (
-                    <p className="text-[11px] text-gray-500 leading-normal line-clamp-2">
+                    <p className="text-[12px] text-gray-400 leading-normal line-clamp-2">
                       {product.subtitle}
                     </p>
                   )}
                 </div>
 
-                <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                <div className="flex items-center justify-between pt-3 border-t border-[#2e2e2e]">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-base font-extrabold text-success">
+                    <span className="text-lg font-extrabold text-success">
                       ${product.price.toFixed(2)}
                     </span>
                     {product.originalPrice && (
@@ -256,7 +297,7 @@ export default function ShopPage() {
         </div>
       </section>
 
-      {/* 5. Pagination (Matching standard page layout indicators) */}
+      {/* 5. Pagination */}
       {totalPages > 1 && (
         <section className="max-w-7xl mx-auto px-4 md:px-8 flex justify-center pb-12">
           <div className="flex items-center gap-2 overflow-x-auto max-w-full pb-2 select-none [&::-webkit-scrollbar]:hidden">
@@ -274,11 +315,10 @@ export default function ShopPage() {
                 <button
                   key={`page-${num}`}
                   onClick={() => setCurrentPage(num as number)}
-                  className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center justify-center ${
-                    currentPage === num
+                  className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center justify-center ${currentPage === num
                       ? 'bg-success text-black shadow-lg font-black'
                       : 'bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white'
-                  }`}
+                    }`}
                 >
                   {num}
                 </button>
@@ -342,13 +382,22 @@ export default function ShopPage() {
                       <span className="font-bold text-gray-300">{quickViewProduct.rating}</span>
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-white leading-snug">{quickViewProduct.title}</h3>
+                  <h3 className="text-xl font-bold text-success leading-snug">{quickViewProduct.title}</h3>
                   {quickViewProduct.description && (
                     <p className="text-xs text-gray-400 leading-relaxed">{quickViewProduct.description}</p>
                   )}
                 </div>
                 <div className="pt-4 border-t border-white/5 flex items-center justify-between gap-4 mt-6">
                   <span className="text-2xl font-extrabold text-success">${quickViewProduct.price.toFixed(2)}</span>
+                  <button
+                    onClick={() => {
+                      handleAddToCart(quickViewProduct)
+                      setQuickViewProduct(null)
+                    }}
+                    className="px-5 py-2.5 bg-success text-black font-extrabold text-xs uppercase tracking-wider rounded-xl hover:bg-success/90 transition-all flex items-center gap-2 cursor-pointer shadow-lg"
+                  >
+                    <ShoppingBag className="w-4 h-4" /> Add to Cart
+                  </button>
                 </div>
               </div>
             </div>

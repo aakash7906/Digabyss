@@ -10,7 +10,7 @@ import {
 
 import Logo from './Logo'
 import { OurProductsDesktop, OurProductsMobile } from './OurProducts'
-import { useCart } from '../../../context/CartContext'
+import { useCart } from '@/Pages/context/CartContext'
 
 interface NavLink {
   name: string

@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ourProductsMenu, type MenuItem } from '@/components/OurProducts'
 import { fetchProductsByCategory, type Product } from '@/data/products'
-import { useCart } from '@/context/CartContext'
+import { useCart } from '@/Pages/context/CartContext'
 import { Star, ChevronRight, Filter, ShoppingBag, ArrowRight, Check } from 'lucide-react'
 
 // Helper function to turn slugs into readable titles e.g. 'digital-assets' -> 'Digital Assets'
